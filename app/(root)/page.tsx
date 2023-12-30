@@ -12,7 +12,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from '@/components/ui/input'
-import connectToDatabase from '@/lib/database'
+import { connectToDatabase } from '@/lib/database/mongodb'
 
 function page() {
     connectToDatabase()
