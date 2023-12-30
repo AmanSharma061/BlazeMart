@@ -2,10 +2,11 @@
 
 import { revalidatePath } from 'next/cache'
 
-import { connectToDatabase } from '@/lib/database'
-import Event from '@/lib/database/models/event.model'
-import User from '@/lib/database/models/user.model'
-import Category from '@/lib/database/models/category.model'
+import Event from '../database/models/event.model'
+import Category from '../database/models/category.model'
+import Order from '../database/models/order.model'
+import User from '../database/models/user.model'
+import { connectToDatabase } from '../database/mongodb'
 import { handleError } from '@/lib/utils'
 
 import {
@@ -65,7 +66,7 @@ export async function updateEvent({ userId, event, path }: UpdateEventParams) {
     await connectToDatabase()
 
     const eventToUpdate = await Event.findById(event._id)
-    if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
+    if (!eventToUpdate || !eventToUpdate.organizer || eventToUpdate.organizer.toHexString() !== userId) {
       throw new Error('Unauthorized or event not found')
     }
 
